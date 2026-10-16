@@ -11,6 +11,11 @@ updates:
     schedule:
       interval: "weekly"
     versioning-strategy: "increase"
+    # Keep type definitions aligned with the declared Node.js 24 runtime.
+    ignore:
+      - dependency-name: "@types/node"
+        update-types:
+          - "version-update:semver-major"
     # Match the coupled versions checked by scripts/checks/check-dependencies.mjs.
     groups:
       next:
@@ -49,6 +54,14 @@ updates:
       - "/.devcontainer"
     schedule:
       interval: "weekly"
+    # Upgrade the Node.js baseline deliberately across apps and development tools.
+    ignore:
+      - dependency-name: "node"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "mcr.microsoft.com/devcontainers/typescript-node"
+        update-types:
+          - "version-update:semver-major"
     groups:
       node-runtime:
         patterns:
