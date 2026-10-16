@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:24-slim AS dependencies
+FROM node:25-slim AS dependencies
 WORKDIR /workspace
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm install --global pnpm@12.11.2
@@ -28,7 +28,7 @@ ARG BUILD_INPUT_SHA
 RUN test -n "$BUILD_INPUT_SHA" && node scripts/build-image-app.mjs
 RUN test -f .next/standalone/apps/admin/server.js
 
-FROM node:24-slim AS runner
+FROM node:25-slim AS runner
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=8080 HOSTNAME=0.0.0.0
 ARG AERPP_ENVIRONMENT
 ARG SOURCE_REVISION

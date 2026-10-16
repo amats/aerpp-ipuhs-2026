@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:24-slim AS builder
+FROM node:25-slim AS builder
 WORKDIR /workspace
 RUN npm install --global pnpm@12.11.2
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
@@ -20,7 +20,7 @@ RUN node scripts/licenses/collect-license-notices.mjs --app support
 RUN pnpm --filter @aerpp/support run build \
     && PNPM_CONFIG_ALLOW_UNUSED_PATCHES=true pnpm --filter @aerpp/support deploy --legacy --prod /output
 
-FROM node:24-slim AS runner
+FROM node:25-slim AS runner
 ENV NODE_ENV=production PORT=8080
 WORKDIR /app
 COPY --from=builder --chown=node:node /output ./
