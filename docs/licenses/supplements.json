@@ -1,0 +1,93 @@
+{
+  "@zip.js/zip.js@2.23.0": {
+    "file": "supplements/zip-js-zlib-streams.txt",
+    "source": "https://raw.githubusercontent.com/gildas-lormeau/zlib-streams-ts/688fdc5541a7f696de1fe90253b5b3efc452bae8/LICENSE.md",
+    "note": "Verbatim BSD-3-Clause and zlib notices for the bundled native JavaScript fallback. The installed lib/core/streams/zlib-js/zlib-streams.min.js matches upstream dist/zlib-streams.min.js at this revision, SHA-256 61d834e474adcadf5c535092b39b8bffe87f97959d90f9c3da17992f5d89ab41."
+  },
+  "saxes@6.0.0": {
+    "file": "supplements/saxes.txt",
+    "source": "https://raw.githubusercontent.com/lddubeau/saxes/211fa0ebec9b628affc09219199639887174bfc3/LICENSE",
+    "note": "Verbatim upstream v6.0.0 license and attribution; the package tarball omits LICENSE."
+  },
+  "next-auth@4.24.15": {
+    "file": "supplements/next-auth.txt",
+    "source": "https://raw.githubusercontent.com/nextauthjs/next-auth/d857eec560fb99c8b18d3b22a2693b849a62d1c3/LICENSE",
+    "note": "ISC text from the upstream v4 branch; package tarball omits LICENSE."
+  },
+  "@next/env@16.4.1": {
+    "file": "supplements/next.txt",
+    "source": "https://raw.githubusercontent.com/vercel/next.js/v16.4.1/license.md",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "@next/swc-linux-arm64-gnu@16.4.1": {
+    "file": "supplements/next.txt",
+    "source": "https://raw.githubusercontent.com/vercel/next.js/v16.4.1/license.md",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "babel-plugin-react-compiler@1.0.0": {
+    "file": "supplements/react.txt",
+    "source": "https://raw.githubusercontent.com/facebook/react/59aff3e18cb5b3a336c280bbfa57ec37999511b9/LICENSE",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "client-only@0.0.1": {
+    "file": "supplements/react.txt",
+    "source": "https://raw.githubusercontent.com/facebook/react/59aff3e18cb5b3a336c280bbfa57ec37999511b9/LICENSE",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "@google-cloud/firestore-api@0.2.0": {
+    "file": "supplements/google-cloud-node.txt",
+    "source": "https://raw.githubusercontent.com/googleapis/google-cloud-node/cd8400ff798c382b246f2092c8195230c18dccc9/LICENSE",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "google-gax@5.0.8": {
+    "file": "supplements/google-cloud-node.txt",
+    "source": "https://raw.githubusercontent.com/googleapis/google-cloud-node/cd8400ff798c382b246f2092c8195230c18dccc9/LICENSE",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "@google-cloud/logging-api@0.3.0": {
+    "file": "supplements/google-cloud-node.txt",
+    "source": "https://raw.githubusercontent.com/googleapis/google-cloud-node/cd8400ff798c382b246f2092c8195230c18dccc9/LICENSE",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "stream-events@1.0.5": {
+    "file": "supplements/stream-events.txt",
+    "source": "https://raw.githubusercontent.com/stephenplusplus/stream-events/3cfd35ab1a68c9fd41c992428e839ad54dcf8017/LICENSE",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "stubs@3.0.0": {
+    "file": "supplements/stubs.txt",
+    "source": "https://raw.githubusercontent.com/stephenplusplus/stubs/580b4d8b3a34c1193d5ec10e0db0d6ea4b4c0ec5/LICENSE",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "eastasianwidth@0.2.0": {
+    "file": "supplements/eastasianwidth.txt",
+    "source": "https://raw.githubusercontent.com/komagata/eastasianwidth/4da17029e91bd4e7a96237f1409d233f3c79b5ee/MIT-LICENSE.txt",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "markdown-it-anchor@8.6.7": {
+    "file": "supplements/markdown-it-anchor.txt",
+    "source": "https://raw.githubusercontent.com/valeriangalliat/markdown-it-anchor/d7f79db33ea72fc9f0906328e6b5df5ab170d55d/UNLICENSE",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "data-uri-to-buffer@4.0.1": {
+    "file": "supplements/data-uri-to-buffer.txt",
+    "source": "https://raw.githubusercontent.com/TooTallNate/proxy-agents/4813885d3f4e2ff837878ceffdba656a71dc31f0/packages/data-uri-to-buffer/LICENSE",
+    "note": "Supplement for the declared license; review source attribution and version changes."
+  },
+  "@next/swc-linux-x64-gnu@16.4.1": {
+    "file": "supplements/next.txt",
+    "source": "https://raw.githubusercontent.com/vercel/next.js/v16.4.1/license.md",
+    "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
+  },
+  "@img/sharp-libvips-linux-arm64@1.3.4": {
+    "nativeBundle": "supplements/sharp-libvips-1.3.4.json"
+  },
+  "@img/sharp-libvips-linux-x64@1.3.4": {
+    "nativeBundle": "supplements/sharp-libvips-1.3.4.json"
+  },
+  "@libpdf/core@0.5.2": {
+    "file": "supplements/libpdf-fontbox.txt",
+    "source": "https://raw.githubusercontent.com/LibPDF-js/core/ec46179dd8fa5fbe7ae206f3db0f744bb8ea02df/src/fontbox/LICENSE.md",
+    "note": "Apache-2.0 text for the FontBox-derived code; the package includes its own MIT notice but omits this source-directory license."
+  }
+}

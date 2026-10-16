@@ -1,0 +1,24 @@
+{
+  "name": "AERPP: AI-assisted Ethical Review Pre-Processing",
+  "short_name": "AERPP",
+  "description": "倫理申請書類をAIで事前解析し、研究参加者による試作システムの評価を支援するWebアプリケーションです。",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1664b7",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

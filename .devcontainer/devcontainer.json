@@ -1,0 +1,48 @@
+{
+  "name": "AERPP Workspace",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
+    },
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "21",
+      "installMaven": "false",
+      "installGradle": "false"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers-extra/features/ripgrep:1": {}
+  },
+  "postCreateCommand": "bash .devcontainer/postCreate.sh",
+  "runArgs": [
+    "--env-file",
+    ".env",
+    "--security-opt",
+    "seccomp=unconfined",
+    "--security-opt",
+    "systempaths=unconfined"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "-dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss",
+        "ms-azuretools.vscode-docker",
+        "biomejs.biome",
+        "openai.chatgpt"
+      ]
+    }
+  },
+  "remoteUser": "node",
+  "remoteEnv": {
+    "HOST_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+  },
+  "forwardPorts": [
+    3000,
+    3001,
+    8088,
+    8090
+  ]
+}

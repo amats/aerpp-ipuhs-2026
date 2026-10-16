@@ -1,0 +1,40 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 71bb9e0c947dc86e1576ec67754dd954cd86a56a..c035a18b5ccae69aeeda466979af74b212ba3b4c 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -20936,6 +20936,8 @@ function chooseAppearanceFont(text, candidates) {
+ function resolveAppearanceFont(acroForm, field, text, existingFontName) {
+ 	const candidates = [];
+ 	const fieldFont = field.getFont();
++	// An explicit usable font has priority; do not parse unused fallback fonts.
++	if (fieldFont && isEmbeddedFont(fieldFont) && fieldFont.canEncode(text)) return fieldFont;
+ 	const defaultFont = acroForm.getDefaultFont();
+ 	if (fieldFont) candidates.push(fieldFont);
+ 	if (defaultFont) candidates.push(defaultFont);
+@@ -37637,7 +37639,7 @@ function createFontObjectsFull(font) {
+ 	const fontName = program.postScriptName ?? "Unknown";
+ 	const fontTypeResult = getFontFileType(program);
+ 	const widthsArray = buildFullWidthsArray(program);
+-	const toUnicodeData = buildFullToUnicodeCMap(program);
++	const toUnicodeData = buildFullToUnicodeCMap(program, font.getGidToCodePointMap());
+ 	const fontStreamDict = new PdfDict();
+ 	if (fontTypeResult.fontFileKey === "FontFile2") fontStreamDict.set("Length1", PdfNumber.of(program.getData().length));
+ 	else if (fontTypeResult.fontFileSubtype) fontStreamDict.set("Subtype", PdfName.of(fontTypeResult.fontFileSubtype));
+@@ -37782,7 +37784,7 @@ function buildFullWidthsArray(program) {
+ /**
+ * Build a ToUnicode CMap covering all glyphs in the font.
+ */
+-function buildFullToUnicodeCMap(program) {
++function buildFullToUnicodeCMap(program, usedGlyphs) {
+ 	const gidToCodePoint = /* @__PURE__ */ new Map();
+ 	for (const [start, end] of FULL_EMBED_UNICODE_RANGES) for (let cp = start; cp <= end; cp++) {
+ 		const gid = program.getGlyphId(cp);
+@@ -37790,6 +37792,8 @@ function buildFullToUnicodeCMap(program) {
+ 			if (!gidToCodePoint.has(gid)) gidToCodePoint.set(gid, cp);
+ 		}
+ 	}
++	// Preserve actual text outside the default ranges, including CJK characters.
++	for (const [gid, codePoint] of usedGlyphs) gidToCodePoint.set(gid, codePoint);
+ 	return buildToUnicodeCMapFromGids(gidToCodePoint);
+ }
+ /**

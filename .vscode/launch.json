@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Web: test",
+      "type": "node",
+      "request": "attach",
+      "address": "127.0.0.1",
+      "port": 9230,
+      "restart": true,
+      "timeout": 120000,
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/apps/web/.next/**/*.js"],
+      "presentation": {
+        "order": 0
+      },
+      "preLaunchTask": "debug:web"
+    },
+    {
+      "name": "Admin: test",
+      "type": "node",
+      "request": "attach",
+      "autoAttachChildProcesses": false,
+      "address": "127.0.0.1",
+      "port": 9231,
+      "restart": true,
+      "timeout": 120000,
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/apps/admin/.next/**/*.js"],
+      "presentation": {
+        "order": 1
+      },
+      "preLaunchTask": "debug:admin"
+    }
+  ]
+}

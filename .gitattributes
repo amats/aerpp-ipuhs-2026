@@ -1,0 +1,5 @@
+# Preserve Markdown hard line breaks in supplied research materials.
+apps/web/assets-public/*.mdx whitespace=-blank-at-eol
+
+# Unified patch context prefixes precede the upstream tab indentation.
+patches/*.patch whitespace=-space-before-tab

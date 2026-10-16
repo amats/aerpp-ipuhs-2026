@@ -1,0 +1,77 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "debug:web",
+      "type": "process",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "env:run",
+        "test",
+        "web",
+        "dev",
+        "--inspect=127.0.0.1:9230"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": "^(?!)():(\\d+): (.*)$",
+          "file": 1,
+          "line": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "Ready in"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Start the test server with Node.js debugging. Open http://localhost:3000 manually in your regular Chrome."
+    },
+    {
+      "label": "debug:admin",
+      "type": "process",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "env:run",
+        "test",
+        "admin",
+        "dev",
+        "--inspect=127.0.0.1:9231"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": "^(?!)():(\\d+): (.*)$",
+          "file": 1,
+          "line": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "Ready in"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "detail": "Start the test server with Node.js debugging. Open http://localhost:3001 manually in your regular Chrome."
+    }
+  ]
+}

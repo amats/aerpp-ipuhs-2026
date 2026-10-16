@@ -1,0 +1,40 @@
+{
+	auto_https off
+	log {
+		output stdout
+		format filter {
+			wrap json
+			fields {
+				request>headers delete
+				resp_headers delete
+				request>uri regexp "[?].*$" ""
+			}
+		}
+	}
+
+	servers {
+		protocols h1
+	}
+}
+
+:80 {
+	log {
+		output stdout
+		format filter {
+			wrap json
+			fields {
+				request>headers delete
+				resp_headers delete
+				request>uri regexp "[?].*$" ""
+			}
+		}
+		level WARN
+	}
+
+	# --- /(root) -> app-aerpp ---
+	handle_path /* {
+		reverse_proxy app-aerpp:3000
+	}
+
+	encode gzip zstd
+}

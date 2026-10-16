@@ -1,0 +1,2 @@
+export const MAIL_WORK_BUDGET_MS = 50_000
+export const MAIL_DEPENDENCY_TIMEOUT_MS = 15_000

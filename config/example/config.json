@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "projectId": "demo-aerpp",
+  "shared": {
+    "participantApiServerId": "local-example-server"
+  },
+  "web": {
+    "llmPresetFile": "lms-medgemma.json",
+    "sessionCookieSecure": "false",
+    "debugPagesEnabled": "true",
+    "logLevel": "debug",
+    "nextPublicParticipantEmailPattern": "^[^@]+@example[.]invalid$"
+  },
+  "admin": {
+    "adminAllowedEmails": "admin@example.invalid"
+  },
+  "logging": {},
+  "infrastructure": {
+    "region": "asia-northeast1",
+    "maxInstances": 2,
+    "monitoring": {
+      "notificationEmail": "alerts@example.invalid"
+    },
+    "operatorAccount": "operator@example.invalid",
+    "firestore": {
+      "location": "asia-northeast1",
+      "manageExistingIndexes": true,
+      "automaticBackups": true,
+      "backupRetentionDays": 7
+    }
+  },
+  "support": {
+    "admissionOpen": false,
+    "maintenanceEnabled": false,
+    "contactEmail": "support@example.invalid",
+    "local": {
+      "baseUrl": "http://127.0.0.1:8090",
+      "firestoreEmulatorHost": "127.0.0.1:8088"
+    },
+    "gmail": {
+      "sender": "sender@example.invalid"
+    },
+    "access": {
+      "revoked": false,
+      "notBefore": "1970-01-01T00:00:00.000Z",
+      "expiresAt": "9999-12-30T23:59:59.998Z",
+      "backendStopsAt": "9999-12-31T23:59:59.999Z"
+    }
+  },
+  "participants": {
+    "testEmailAddresses": ["researcher@example.invalid"]
+  }
+}

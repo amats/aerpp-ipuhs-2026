@@ -1,0 +1,16 @@
+aerpp
+Copyright (c) 2026 Akira Matsushita
+
+This product is licensed under the MIT License. A copy of the license is
+provided in the accompanying LICENSE file.
+
+Third-party software, fonts and models retain their own terms.
+THIRD_PARTY_NOTICES.md describes their attribution, selected licenses,
+update procedure and outstanding distribution review.
+Package-specific copyright, license and NOTICE texts and bundled asset
+license texts are provided in docs/licenses/.
+Web and Admin also make the applicable notices available on /license.
+
+The configured MedGemma model is subject to the following notice:
+HAI-DEF is provided under and subject to the Health AI Developer Foundations
+Terms of Use found at https://developers.google.com/health-ai-developer-foundations/terms

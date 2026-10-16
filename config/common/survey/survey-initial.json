@@ -1,0 +1,329 @@
+{
+  "survey_version": "v2_initial",
+  "description": "解析結果をご確認後、このシステムに関するアンケートにご回答ください。判断できない評価項目は未回答のままお進みください（「どちらともいえない」とは区別します）。自由記述は任意です。個人情報・未公開研究の機密情報や、審査コメント・AI出力の原文は記載せず、個人・研究課題を特定できない概要をお書きください。",
+  "types": [
+    {
+      "type": "likert7",
+      "labels": {
+        "1": "全くそう思わない",
+        "2": "そう思わない",
+        "3": "あまりそう思わない",
+        "4": "どちらともいえない",
+        "5": "ややそう思う",
+        "6": "そう思う",
+        "7": "非常にそう思う"
+      }
+    },
+    {
+      "type": "text",
+      "placeholder": "ご自由にお書きください"
+    },
+    {
+      "type": "single_choice"
+    },
+    {
+      "type": "section"
+    }
+  ],
+  "items": [
+    {
+      "type": "section",
+      "section_id": "respondent-profile",
+      "heading_ja": "回答者について"
+    },
+    {
+      "type": "single_choice",
+      "required": true,
+      "construct": "BG",
+      "item_id": "BG1",
+      "question_ja": "あなたの所属を教えてください",
+      "options": [
+        "看護学科",
+        "理学療法学科",
+        "作業療法学科",
+        "放射線技術科学科",
+        "人間科学センター",
+        "医科学センター",
+        "付属病院",
+        "その他"
+      ]
+    },
+    {
+      "type": "single_choice",
+      "required": true,
+      "construct": "BG",
+      "item_id": "BG2",
+      "question_ja": "あなたの立場を教えてください",
+      "options": ["教員", "職員", "学生"]
+    },
+    {
+      "type": "single_choice",
+      "required": true,
+      "construct": "BG",
+      "item_id": "BG3",
+      "question_ja": "倫理申請書類を自分で作成した経験はありますか",
+      "options": ["なし", "1回", "2〜4回", "5回以上"]
+    },
+    {
+      "type": "single_choice",
+      "required": true,
+      "construct": "BG",
+      "item_id": "BG4",
+      "question_ja": "倫理審査に関与した経験はありますか",
+      "options": ["あり", "なし"]
+    },
+    {
+      "type": "single_choice",
+      "required": true,
+      "construct": "CTX",
+      "item_id": "CTX1",
+      "question_ja": "今回このシステムを利用した時点の状況を教えてください",
+      "options": [
+        "倫理委員会への申請前",
+        "倫理委員会で審査中",
+        "倫理委員会承認後",
+        "倫理申請とは直接関係ない"
+      ]
+    },
+    {
+      "type": "single_choice",
+      "required": true,
+      "construct": "CTX",
+      "item_id": "CTX2",
+      "question_ja": "今回の利用の主な目的を教えてください",
+      "options": [
+        "書類作成の参考",
+        "申請前の自己点検",
+        "審査対応の修正検討",
+        "教育・学習",
+        "試用・評価"
+      ]
+    },
+    {
+      "type": "section",
+      "section_id": "system-evaluation",
+      "heading_ja": "システムについて"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "PE",
+      "item_id": "PE1",
+      "reverse": false,
+      "question_ja": "このシステムを使うことで、研究の質は向上すると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "PE",
+      "item_id": "PE2",
+      "reverse": false,
+      "question_ja": "このシステムは、研究をより効率的に進めるのに役立つと思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "PE",
+      "item_id": "PE3",
+      "reverse": false,
+      "question_ja": "このシステムは、研究計画や申請内容を見直すうえで有益だと思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "EE",
+      "item_id": "EE1",
+      "reverse": false,
+      "question_ja": "このシステムの使い方は、私にとって分かりやすいと思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "EE",
+      "item_id": "EE2",
+      "reverse": false,
+      "question_ja": "このシステムは、特別な訓練がなくても使いこなせると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "EE",
+      "item_id": "EE3",
+      "reverse": false,
+      "question_ja": "このシステムは、少ない労力で利用できると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "EX",
+      "item_id": "EX1",
+      "reverse": false,
+      "question_ja": "このシステムの出力内容は、私にとって理解しやすいと思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "EX",
+      "item_id": "EX2",
+      "reverse": false,
+      "question_ja": "このシステムがその助言を行った理由は理解できると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "EX",
+      "item_id": "EX3",
+      "reverse": false,
+      "question_ja": "このシステムの考え方や判断の流れは、説明されていると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "TR",
+      "item_id": "TR1",
+      "reverse": false,
+      "question_ja": "このシステムの出力は、全体として信頼性が高いと思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "TR",
+      "item_id": "TR2",
+      "reverse": false,
+      "question_ja": "このシステムは、不適切な助言を行わないよう配慮されていると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "TR",
+      "item_id": "TR3",
+      "reverse": false,
+      "question_ja": "このシステムの助言を判断の参考として利用できると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "EV",
+      "item_id": "EV1",
+      "reverse": false,
+      "question_ja": "このシステムの助言は、医療・研究倫理の観点から妥当だと思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "EV",
+      "item_id": "EV2",
+      "reverse": false,
+      "question_ja": "このシステムの出力は、倫理的に問題のある内容を含まないと思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "EV",
+      "item_id": "EV3",
+      "reverse": false,
+      "question_ja": "このシステムは、研究対象者への倫理的配慮を意識した助言を行っていると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "FC",
+      "item_id": "FC1",
+      "reverse": false,
+      "question_ja": "このシステムを使うために必要な機器や利用環境は整っていると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "FC",
+      "item_id": "FC2",
+      "reverse": false,
+      "question_ja": "このシステムを使う際に、必要な支援やサポートを受けられると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "FC",
+      "item_id": "FC3",
+      "reverse": false,
+      "question_ja": "このシステムは、私の現在の業務・学習環境とよく適合していると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "SI",
+      "item_id": "SI1",
+      "reverse": false,
+      "question_ja": "私にとって重要な人たちは、このシステムを使うべきだと考えると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "SI",
+      "item_id": "SI2",
+      "reverse": false,
+      "question_ja": "私の身近な同僚や周囲の人たちは、このシステムの利用を支持すると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "SI",
+      "item_id": "SI3",
+      "reverse": false,
+      "question_ja": "私の所属する組織や環境では、このシステムを使うことが望ましいと考えられると思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "BI",
+      "item_id": "BI1",
+      "reverse": false,
+      "question_ja": "今後もこのシステムを利用したいと思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "BI",
+      "item_id": "BI2",
+      "reverse": false,
+      "question_ja": "利用できる場面では、このシステムを進んで活用したいと思う"
+    },
+    {
+      "type": "likert7",
+      "required": false,
+      "construct": "BI",
+      "item_id": "BI3",
+      "reverse": false,
+      "question_ja": "このシステムを、別の課題や研究にも使いたいと思う"
+    },
+    {
+      "type": "section",
+      "section_id": "free-comments",
+      "heading_ja": "自由記述（任意）"
+    },
+    {
+      "type": "text",
+      "required": false,
+      "construct": "TX",
+      "item_id": "TX1",
+      "question_ja": "このシステムの良かった点をお書きください",
+      "placeholder": "原文の貼り付けは避け、個人・研究課題を特定できない概要をご記入ください"
+    },
+    {
+      "type": "text",
+      "required": false,
+      "construct": "TX",
+      "item_id": "TX2",
+      "question_ja": "このシステムの問題点、気になった点、または改善してほしい点をお書きください",
+      "placeholder": "原文の貼り付けは避け、個人・研究課題を特定できない概要をご記入ください"
+    },
+    {
+      "type": "text",
+      "required": false,
+      "construct": "TX",
+      "item_id": "TX3",
+      "question_ja": "該当する場合のみ、実際の倫理委員会の指摘事項や事前に予想した指摘事項と、今回の解析結果の共通点・相違点（見落とし・追加指摘を含む）の概要をお書きください",
+      "placeholder": "原文の貼り付けは避け、個人・研究課題を特定できない概要をご記入ください"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+(resource.type="cloud_run_revision" AND labels."aerpp-component"="support"
+  AND (severity>=ERROR OR httpRequest.status>=500)
+  AND NOT (jsonPayload.code="ADMISSION_CLOSED" OR jsonPayload.code="WITHDRAWAL_CLEANUP_PENDING"))
+OR (resource.type="cloud_scheduler_job" AND resource.labels.job_id=~"^aerpp-support-(withdrawal-cleanup|mail-health)$" AND severity>=ERROR)
+OR (logName="projects/${project_id}/logs/aerpp-support-alert-test" AND severity=ERROR AND jsonPayload.event="operator-notification-test")

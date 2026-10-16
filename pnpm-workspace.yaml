@@ -1,0 +1,71 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+overrides:
+  # GHSA-w5hq-g745-h8pq; retain CommonJS support for the Google HTTP client.
+  "uuid@<11.1.1": "11.1.1"
+allowBuilds:
+  protobufjs: true
+  sharp: true
+# Shared dependencies and packages upgraded together. Single-owner dependencies
+# stay in their package.json; keep pnpm's default manual catalog mode.
+catalog:
+  "@biomejs/biome": "2.5.15"
+  "@google-cloud/firestore": "9.3.1"
+  "@libpdf/core": "0.5.2"
+  "@next/mdx": "^16.4.1"
+  "@playwright/test": "^1.64.1"
+  "@tailwindcss/postcss": "^4.3.3"
+  "@types/node": "^24.19.2"
+  "@types/react": "^19.3.0"
+  "@types/react-dom": "^19.3.0"
+  "babel-plugin-react-compiler": "^1.0.0"
+  "google-auth-library": "11.3.0"
+  "iron-session": "9.0.1"
+  "next": "^16.4.1"
+  "pino": "^10.4.0"
+  "react": "^19.3.1"
+  "react-dom": "^19.3.1"
+  "tailwindcss": "^4.3.3"
+  "typescript": "^7.0.2"
+  "vitest": "^5.0.4"
+  "zod": "^4.6.7"
+patchedDependencies:
+  "@libpdf/core@0.5.2": patches/@libpdf__core@0.5.2.patch
+# Reviewed updates published within pnpm's default 24-hour release delay.
+# Keep exceptions scoped to these exact versions.
+minimumReleaseAgeExclude:
+  - "@next/env@16.4.1"
+  - "@next/mdx@16.4.1"
+  - "@next/swc-darwin-arm64@16.4.1"
+  - "@next/swc-darwin-x64@16.4.1"
+  - "@next/swc-linux-arm64-gnu@16.4.1"
+  - "@next/swc-linux-arm64-musl@16.4.1"
+  - "@next/swc-linux-x64-gnu@16.4.1"
+  - "@next/swc-linux-x64-musl@16.4.1"
+  - "@next/swc-win32-arm64-msvc@16.4.1"
+  - "@next/swc-win32-x64-msvc@16.4.1"
+  - "@playwright/test@1.64.1"
+  - "@rolldown/binding-android-arm-eabi@1.2.14"
+  - "@rolldown/binding-android-arm64@1.2.14"
+  - "@rolldown/binding-darwin-arm64@1.2.14"
+  - "@rolldown/binding-darwin-x64@1.2.14"
+  - "@rolldown/binding-freebsd-x64@1.2.14"
+  - "@rolldown/binding-linux-arm-gnueabihf@1.2.14"
+  - "@rolldown/binding-linux-arm64-gnu@1.2.14"
+  - "@rolldown/binding-linux-arm64-musl@1.2.14"
+  - "@rolldown/binding-linux-ppc64-gnu@1.2.14"
+  - "@rolldown/binding-linux-s390x-gnu@1.2.14"
+  - "@rolldown/binding-linux-x64-gnu@1.2.14"
+  - "@rolldown/binding-linux-x64-musl@1.2.14"
+  - "@rolldown/binding-openharmony-arm64@1.2.14"
+  - "@rolldown/binding-win32-arm64-msvc@1.2.14"
+  - "@rolldown/binding-win32-x64-msvc@1.2.14"
+  - dotenv@18.0.8
+  - next@16.4.1
+  - playwright-core@1.64.1
+  - playwright@1.64.1
+  - react-dom@19.3.1
+  - react@19.3.1
+  - rolldown@1.2.14
+  - undici@8.12.1

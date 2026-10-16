@@ -1,0 +1,63 @@
+services:
+  fluent-bit:
+    image: fluent/fluent-bit:latest
+    container_name: fluent-bit
+    command: ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/fluent-bit.conf"]
+    environment:
+      HTTP_PROXY: ${HTTP_PROXY:-}
+      http_proxy: ${http_proxy:-}
+      HTTPS_PROXY: ${HTTPS_PROXY:-}
+      https_proxy: ${https_proxy:-}
+      NO_PROXY: ${NO_PROXY:-}
+      no_proxy: ${no_proxy:-}
+    volumes:
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - ./parsers.conf:/fluent-bit/etc/parsers.conf:ro
+    ports:
+      - "127.0.0.1:24224:24224/tcp"
+    restart: unless-stopped
+
+  app-aerpp:
+    container_name: app-aerpp
+    volumes:
+      - web-session-coordination:/tmp/aerpp-coordination
+    expose:
+      - "3000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:3000/health || exit 1"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+    depends_on:
+      fluent-bit:
+        condition: service_started
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 127.0.0.1:24224
+        fluentd-async: "true"
+        tag: docker.app-aerpp
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    ports:
+      - "80:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    depends_on:
+      fluent-bit:
+        condition: service_started
+      app-aerpp:
+        condition: service_healthy
+    restart: unless-stopped
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 127.0.0.1:24224
+        fluentd-async: "true"
+        tag: docker.caddy
+
+volumes:
+  web-session-coordination:

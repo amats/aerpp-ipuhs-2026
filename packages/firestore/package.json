@@ -1,0 +1,51 @@
+{
+  "name": "@aerpp/firestore",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "Shared server-side Firestore repositories for AERPP",
+  "exports": {
+    "./information": "./src/information.ts",
+    "./information-types": "./src/information-types.ts",
+    "./participant-repository": "./src/participant-repository.ts",
+    "./values": "./src/values.ts",
+    "./participant-snapshot": "./src/participant-snapshot.ts",
+    "./participant-snapshot-types": "./src/participant-snapshot-types.ts",
+    "./data-purpose-types": "./src/data-purpose-types.ts"
+  },
+  "scripts": {
+    "lint": "biome check && node ../../scripts/checks/check-boundaries.mjs packages/firestore",
+    "format": "biome format --write",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "pnpm run lint && pnpm run typecheck && pnpm test"
+  },
+  "dependencies": {
+    "@aerpp/participant-api-contracts": "workspace:*",
+    "@google-cloud/firestore": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "files": [
+    "src/**/*.ts",
+    "README.md",
+    "!**/*.test.*",
+    "!**/test-support/**",
+    "!**/tests/**",
+    "!**/e2e/**",
+    "!**/private/**",
+    "!**/generated/**",
+    "!**/secrets/**",
+    "!**/.env*",
+    "!**/.secret*",
+    "!**/gcp-*.json",
+    "!**/*service-account*.json",
+    "!**/*adminsdk*.json",
+    "!**/client_secret*.json"
+  ]
+}

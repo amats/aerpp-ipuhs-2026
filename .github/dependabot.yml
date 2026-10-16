@@ -1,0 +1,66 @@
+# Verify generated PRs locally using CONTRIBUTING.md before merging.
+# https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    # One root pnpm workspace, catalog and lockfile cover all apps/packages.
+    # pnpm 12 is outside the documented support range; validate hosted updates,
+    # especially the two-document lockfile: dependabot/dependabot-core#15904.
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: "increase"
+    # Match the coupled versions checked by scripts/checks/check-dependencies.mjs.
+    groups:
+      next:
+        patterns:
+          - "next"
+          - "@next/mdx"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+      tailwind:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/postcss"
+      next-security:
+        applies-to: "security-updates"
+        patterns:
+          - "next"
+          - "@next/mdx"
+      react-security:
+        applies-to: "security-updates"
+        patterns:
+          - "react"
+          - "react-dom"
+      tailwind-security:
+        applies-to: "security-updates"
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/postcss"
+
+  - package-ecosystem: "docker"
+    directories:
+      - "/apps/web"
+      - "/apps/admin"
+      - "/apps/support"
+      - "/.devcontainer"
+    schedule:
+      interval: "weekly"
+    groups:
+      node-runtime:
+        patterns:
+          - "node"
+
+  # Updates Dev Container Features and their lockfile; Docker covers its base image.
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+# Terraform provider updates remain manual: infra/terraform/versions.tf requires
+# exactly 1.16.3, beyond Dependabot's documented Terraform support (<= 1.15.x).
+# Recheck https://docs.github.com/en/code-security/reference/supply-chain-security/supported-ecosystems-and-repositories
+# before enabling a terraform entry for /infra/terraform.

@@ -1,0 +1,24 @@
+{
+  "name": "Administration tool for AERPP: AI-assisted Ethical Review Pre-Processing",
+  "short_name": "ADMIN-AERPP",
+  "description": "AERPPの研究参加状況、アンケート回答、お知らせ、運用状況の確認と、研究・参加管理データの出力を行う研究責任者向けアプリケーションです。",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1d8615",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

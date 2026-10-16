@@ -1,0 +1,1200 @@
+openapi: 3.1.0
+info:
+  title: AERPP Support API
+  version: 2.0.0
+  description: Participant API served by one Support origin with scoped bearer
+    credentials, explicit email confirmation and authenticated maintenance.
+servers:
+  - url: https://support.example.invalid
+    description: Synthetic placeholder; select the deployed support origin
+paths:
+  /api/participant/send-magic-link:
+    post:
+      tags:
+        - authentication
+      summary: Send a magic link email and create pending records
+      description: Creates pending authentication using the prepared consentId and
+        returns that same ID. Identical retries preserve all request fields,
+        timestamps and deadline. Pending retries may redeliver mail for the same
+        ID; completed retries do not send mail. Reuse with changed content
+        returns CONSENT_REQUEST_CONFLICT. Expired requests are rejected even
+        after TTL deletion. Withdrawal history must still match, cleanup must be
+        complete, and only email confirmation activates participation. Recipient
+        attempts require 60-second intervals and are limited to five per fixed
+        hourly window across callers and consent IDs; rejection returns 429
+        RATE_LIMITED. Delivery failures consume the attempt. The first accepted
+        request timestamp is copied to consentRequestedAt on email confirmation;
+        it never establishes confirmed consent by itself.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendMagicLinkRequest"
+      responses:
+        "200":
+          description: Magic link accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SendMagicLinkResponse"
+        "400": &a1
+          description: Safe machine-readable failure; never retry with changed request
+            identity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401": *a1
+        "403": *a1
+        "409": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+      security:
+        - callerCredential: []
+  /api/participant/verify-authentication:
+    post:
+      tags:
+        - authentication
+      summary: Confirm that a completed authentication is still active
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyAuthenticationRequest"
+      responses:
+        "200":
+          description: Authentication is valid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerifyAuthenticationResponse"
+        "400": *a1
+        "401": *a1
+        "403": *a1
+        "409": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+      security:
+        - callerCredential: []
+  /api/participant/withdraw-participation:
+    post:
+      tags:
+        - consent
+      summary: Record a withdrawal event
+      description: Requires an owner-matched email-confirmed version-2 consent.
+        Pending authentication returns 401 AUTHENTICATION_INVALID without mutation.
+        Retained confirmed consent permits retries after authentication deletion
+        or expiry. Commits withdrawal before bounded deletion. Pending cleanup is also
+        resumed by a scheduled server function, independently of browser
+        lifetime. Each batch remains bound to the accepted withdrawal history.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WithdrawParticipationRequest"
+      responses:
+        "200":
+          description: Cleanup complete; deletedCount is cumulative survey deletions for
+            this withdrawal, excluding authentication records
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WithdrawParticipationResponse"
+        "400": *a1
+        "401": *a1
+        "403": *a1
+        "409": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+      security:
+        - callerCredential: []
+  /api/participant/participation-state:
+    post:
+      tags:
+        - participation
+      operationId: getParticipationState
+      summary: Read the current withdrawal boundary and unused recovery grant without history
+      security:
+        - callerCredential: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetParticipationStateRequest"
+      responses:
+        "200":
+          description: Current state without participation records or email
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetParticipationStateResponse"
+        "400": *a1
+        "401": *a1
+        "409": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+  /api/participant/participation-events:
+    post:
+      tags:
+        - consent
+      summary: Fetch consent and withdrawal records by pseudonym
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConsentLookupRequest"
+      responses:
+        "200":
+          description: Matching records
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListParticipationEventsResponse"
+        "400": *a1
+        "401": *a1
+        "403": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+      description: Returns records and the authoritative lastWithdrawalId from one
+        read transaction. A participant without history returns 200 with an
+        empty records array and null lastWithdrawalId. Capture this boundary
+        before offering explicit consent, then submit it unchanged as
+        expectedWithdrawalId.
+      security:
+        - callerCredential: []
+  /api/participant/analysis-attempt:
+    post:
+      tags:
+        - survey
+      summary: Record an immutable analysis start or terminal observation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecordAnalysisAttemptRequest"
+      responses:
+        "200":
+          description: Created/submitted, or identical retry; timestamps and stored
+            payload remain unchanged on retry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecordAnalysisAttemptResponse"
+        "400": *a1
+        "401": *a1
+        "403": *a1
+        "409": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+      description: Start must be acknowledged before running the model. Completed
+        means output and receipt ready, not questionnaire completion. A missing
+        terminal event remains unconfirmed. Exact retries preserve timestamps;
+        conflicting events return 409. Consent must be current. No document
+        names, bodies, results or errors are accepted.
+      security:
+        - callerCredential: []
+  /api/participant/analysis-outcome:
+    post:
+      tags: [survey]
+      summary: Redeliver only an operational terminal observation
+      description: Requires the retained acknowledged start and its original confirmed
+        consent and owner. Accepts historical observations after withdrawal or recovery.
+        Never recreates research, durations, questionnaire records or eligibility.
+        Exact retries preserve the first receipt; conflicting observations return 409.
+      security:
+        - callerCredential: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecordAnalysisOutcomeRequest"
+      responses:
+        "200":
+          description: Recorded or identical retry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400": *a1
+        "401": *a1
+        "403": *a1
+        "409": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+  /api/participant/analysis-completion:
+    post:
+      tags:
+        - survey
+      summary: Create a survey metadata document keyed by analysisId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecordAnalysisCompletionRequest"
+      responses:
+        "200":
+          description: Created/submitted, or identical retry; timestamps and stored
+            payload remain unchanged on retry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400": *a1
+        "401": *a1
+        "403": *a1
+        "409": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+      security:
+        - callerCredential: []
+  /api/participant/survey:
+    post:
+      tags:
+        - survey
+      summary: Submit survey answers for an existing metadata document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitSurveyRequest"
+      responses:
+        "200":
+          description: Created/submitted, or identical retry; timestamps and stored
+            payload remain unchanged on retry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400": *a1
+        "401": *a1
+        "403": *a1
+        "404": *a1
+        "409": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+      security:
+        - callerCredential: []
+  /api/participant/information:
+    get:
+      tags:
+        - information
+      summary: Fetch information messages
+      responses:
+        "200":
+          description: Information messages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetInformationResponse"
+        "401": *a1
+        "403": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+      security:
+        - callerCredential: []
+  /api/operator/information:
+    post:
+      tags:
+        - information
+      summary: Store an information message
+      description: Validates the request before storage without string coercion.
+        Omitted tone defaults to info. Errors include INVALID_REQUEST (400),
+        UNAUTHORIZED (401) or INTERNAL_ERROR (500).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddInformationRequest"
+      responses:
+        "200":
+          description: Information message stored
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400": *a1
+        "401": *a1
+        "403": *a1
+        "429": *a1
+        "500": *a1
+        "503": *a1
+      security:
+        - callerCredential: []
+  /email/confirm:
+    get:
+      summary: Display confirmation without consuming tokens
+      security: []
+      responses:
+        "200":
+          description: Public HTML confirmation form; tokens are accepted only from the
+            URL fragment in the browser
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      summary: Explicitly consume a version-2 email token once
+      security: []
+      description: Requires same-origin application/json. Legacy consent IDs without a
+        valid token are rejected. Reuse returns AUTHENTICATION_USED without
+        extending authentication.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - consentId
+                - token
+              properties:
+                consentId:
+                  type: string
+                  pattern: ^[A-Za-z0-9]{20}$
+                token:
+                  type: string
+                  pattern: ^[A-Za-z0-9_-]{43}$
+      responses:
+        "200": &a2
+          description: Operation completed
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - ok
+                properties:
+                  ok:
+                    type: boolean
+        "400": *a1
+        "401": *a1
+        "403": *a1
+        "409": *a1
+        "503": *a1
+  /maintenance/withdrawal-cleanup:
+    post:
+      summary: Resume bounded history-fenced withdrawal cleanup
+      security:
+        - schedulerOidc: []
+      responses:
+        "200": *a2
+        "401": *a1
+        "503": *a1
+  /maintenance/mail-health:
+    post:
+      summary: Refresh sender access token without sending mail
+      security:
+        - schedulerOidc: []
+      responses:
+        "200": *a2
+        "401": *a1
+        "503": *a1
+  /api/participant/document-original:
+    post:
+      operationId: readDocumentOriginal
+      security:
+        - callerCredential: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReadDocumentOriginalRequest"
+      responses:
+        "200":
+          description: Verified archived blank original. Filled PDFs are never stored.
+          content:
+            application/json:
+              schema:
+                $schema: https://json-schema.org/draft/2020-12/schema
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    const: true
+                  documentSet:
+                    type: object
+                    properties:
+                      version:
+                        type: string
+                        maxLength: 32
+                        pattern: ^[0-9]+\.[0-9]+(?:\.[0-9]+)?$
+                      sha256:
+                        type: string
+                        pattern: ^[a-f0-9]{64}$
+                    required:
+                      - version
+                      - sha256
+                    additionalProperties: false
+                  contentBase64:
+                    type: string
+                    maxLength: 26666668
+                  manifestJson:
+                    type: string
+                    maxLength: 20000
+                required:
+                  - ok
+                  - documentSet
+                  - contentBase64
+                  - manifestJson
+                additionalProperties: false
+
+components:
+  securitySchemes:
+    callerCredential:
+      type: http
+      scheme: bearer
+      description: Credential ID and high-entropy secret separated by a period;
+        verifier, scope, environment, validity and server identity are enforced.
+    schedulerOidc:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Google-signed token with the exact full-route audience and allowed
+        Scheduler service-account identity.
+  schemas:
+    OkResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - ok
+      properties:
+        ok:
+          type: boolean
+          const: true
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - code
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+    WithdrawParticipationResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - ok
+        - deletedCount
+        - hasCompletedAnalysis
+      properties:
+        ok:
+          type: boolean
+          const: true
+        deletedCount:
+          type: integer
+          minimum: 0
+        hasCompletedAnalysis:
+          type: [boolean, "null"]
+          description: Captured before deletion and retained across retries. True when
+            any analysis completed for the pseudonym; false only when no attempts exist
+            or all attempts have confirmed failure/cancellation. Null denotes an
+            unterminated attempt or missing/invalid retained evidence. Only false
+            permits a fresh start after cleanup.
+    SendMagicLinkRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - documentSet
+        - email
+        - clientId
+        - serverId
+        - pseudonym
+        - encryptedEmail
+        - expectedWithdrawalId
+        - expectedRecoveryId
+        - expectedStudyGeneration
+        - consentId
+        - expiresAtMs
+      properties:
+        documentSet:
+          $ref: "#/components/schemas/DocumentSetReference"
+        email:
+          type: string
+          format: email
+          maxLength: 320
+        clientId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Nonempty, no surrounding whitespace or control characters.
+        serverId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Nonempty, no surrounding whitespace or control characters.
+        pseudonym:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Nonempty, no surrounding whitespace or control characters.
+        encryptedEmail:
+          type: string
+          minLength: 1
+          maxLength: 16384
+        expectedRecoveryId:
+          type: [string, "null"]
+          format: uuid
+          description: Pending administrator grant captured before consent; never refresh during retries.
+        expectedStudyGeneration:
+          type: [string, "null"]
+          format: uuid
+          description: Study generation captured before consent; never refresh during retries.
+        expectedWithdrawalId:
+          type:
+            - string
+            - "null"
+          minLength: 1
+          maxLength: 256
+          description: Latest withdrawal record ID captured before explicit consent; null
+            means no previous withdrawal. Firestore document ID constraints
+            apply. Never refresh this field during retries.
+        consentId:
+          type: string
+          pattern: ^[A-Za-z0-9]{20}$
+          description: Unpredictable identifier prepared once before sending. Reuse for
+            identical retries; distinct consent operations require distinct IDs.
+        expiresAtMs:
+          type: integer
+          minimum: 0
+          maximum: 253402300799999
+          description: Absolute pending deadline in epoch milliseconds, prepared once and
+            retained for retries. Web uses one hour; Support rejects expired
+            requests and new deadlines over 65 minutes ahead. Confirmation
+            retains its existing 24-hour lifetime.
+    ParticipationRecovery:
+      type: object
+      required: [recoveryId, destination]
+      properties:
+        recoveryId:
+          type: string
+          format: uuid
+        destination:
+          type: string
+          enum: [initial-document, initial-survey, follow-up-document]
+        analysisId:
+          type: string
+    VerifyAuthenticationResponse:
+      type: object
+      required: [ok, questionnaireKind]
+      properties:
+        recovery:
+          $ref: "#/components/schemas/ParticipationRecovery"
+        ok:
+          const: true
+        questionnaireKind:
+          type: string
+          enum: [initial, follow-up]
+      description: Required server-owned study mode, derived from current participation state and administrator recovery. Initial survey acceptance ends the initial flow transactionally, independently of historical counts or browser result availability. A different browser is refused while the initial analysis and survey are pending.
+    VerifyAuthenticationRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - clientId
+        - serverId
+        - pseudonym
+        - consentId
+      properties:
+        clientId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Nonempty, no surrounding whitespace or control characters.
+        serverId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Nonempty, no surrounding whitespace or control characters.
+        pseudonym:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Nonempty, no surrounding whitespace or control characters.
+        consentId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Consent record ID returned by sendMagicLink; Firestore document ID
+            constraints apply.
+    WithdrawParticipationRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - documentSet
+        - clientId
+        - serverId
+        - pseudonym
+        - encryptedEmail
+        - consentId
+      properties:
+        documentSet:
+          $ref: "#/components/schemas/DocumentSetReference"
+        clientId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Nonempty, no surrounding whitespace or control characters.
+        serverId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Nonempty, no surrounding whitespace or control characters.
+        pseudonym:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Nonempty, no surrounding whitespace or control characters.
+        encryptedEmail:
+          type: string
+          minLength: 1
+          maxLength: 16384
+        consentId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Consent record ID returned by sendMagicLink; Firestore document ID
+            constraints apply.
+    ConsentLookupRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - pseudonym
+      properties:
+        pseudonym:
+          type: string
+          minLength: 1
+    ParticipationEventRecord:
+      type: object
+      additionalProperties: false
+      oneOf:
+        - properties:
+            eventType:
+              const: consent
+          required:
+            - consentConfirmedAt
+        - properties:
+            eventType:
+              const: withdrawal
+          required:
+            - withdrawalAcceptedAt
+      required:
+        - id
+        - eventType
+        - documentSet
+      properties:
+        documentSet:
+          $ref: "#/components/schemas/DocumentSetReference"
+        id:
+          type: string
+          minLength: 1
+        eventType:
+          type: string
+          enum:
+            - consent
+            - withdrawal
+        serverId:
+          type: string
+        clientId:
+          type: string
+        pseudonym:
+          type: string
+        encryptedEmail:
+          type: string
+        consentConfirmedAt:
+          type:
+            - string
+            - "null"
+          format: date-time
+          description: Successful email-confirmation time on consent events.
+        withdrawalAcceptedAt:
+          type:
+            - string
+            - "null"
+          format: date-time
+          description: Withdrawal acceptance time, independent of data cleanup completion.
+        consentRequestedAt:
+          type:
+            - string
+            - "null"
+          format: date-time
+          description: First server-accepted mail-issuance request, retained on confirmation
+            without changing on resend. Absent when request time is unavailable.
+        consentId:
+          type: string
+        precedingWithdrawalId:
+          type:
+            - string
+            - "null"
+    GetParticipationStateRequest:
+      type: object
+      additionalProperties: false
+      required: [pseudonym]
+      properties:
+        pseudonym:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Nonempty, no surrounding whitespace or control characters.
+    GetParticipationStateResponse:
+      type: object
+      additionalProperties: false
+      required: [lastWithdrawalId, studyGeneration]
+      properties:
+        studyGeneration:
+          type: [string, "null"]
+          format: uuid
+        pendingRecovery:
+          $ref: "#/components/schemas/ParticipationRecovery"
+        lastWithdrawalId:
+          type: [string, "null"]
+          minLength: 1
+          maxLength: 256
+          description: Current withdrawal boundary; null when none exists.
+    ListParticipationEventsResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - records
+        - lastWithdrawalId
+        - studyGeneration
+      properties:
+        studyGeneration:
+          type: [string, "null"]
+          format: uuid
+        pendingRecovery:
+          $ref: "#/components/schemas/ParticipationRecovery"
+        records:
+          type: array
+          items:
+            $ref: "#/components/schemas/ParticipationEventRecord"
+        lastWithdrawalId:
+          type:
+            - string
+            - "null"
+          minLength: 1
+          maxLength: 256
+          description: Authoritative withdrawal history pointer read consistently with
+            records. Null when none exists.
+    RecordAnalysisCompletionRequest:
+      type: object
+      not:
+        required: [surveyVersion]
+      required:
+        - analysisId
+        - analysisWorkspaceVersion
+        - serverId
+        - clientId
+        - pseudonym
+        - consentId
+      properties:
+        analysisWorkspaceVersion:
+          type: string
+          minLength: 1
+          maxLength: 128
+          description: Workspace version captured by Web when this analysis starts.
+            Preserved in completion receipts and exact retries, independently of
+            the version serving questionnaire submission.
+        analysisId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: "Firestore document ID: no slash, dot/dot-dot, or __...__; no
+            leading/trailing whitespace or control characters."
+        serverId:
+          type: string
+          minLength: 1
+          maxLength: 256
+        clientId:
+          type: string
+          minLength: 1
+          maxLength: 256
+        pseudonym:
+          type: string
+          minLength: 1
+          maxLength: 256
+        consentId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Consent record ID returned by sendMagicLink; Firestore document ID
+            constraints apply.
+      additionalProperties:
+        $ref: "#/components/schemas/SurveyJsonValue"
+      propertyNames:
+        pattern: ^[A-Za-z][A-Za-z0-9_-]{0,127}$
+        not:
+          enum:
+            - createdAt
+            - updatedAt
+            - submittedAt
+            - expireAt
+            - status
+            - _integrity
+            - dataPurpose
+            - __proto__
+            - prototype
+            - constructor
+      description: All fields preserve JSON types. Maximum 200000 UTF-8 JSON bytes,
+        1000 values/containers and input depth 18; no arrays directly inside
+        arrays. Field paths must fit within 1500 bytes including the reserved
+        _integrity.metadata prefix, separators and quotes around hyphenated
+        keys; the same conservative bound applies to metadata and answers,
+        without array indices. Key restrictions apply recursively. SubmitSurvey
+        requires the stored owner tuple. Every metadata field participates in retry
+        comparisons. Top-level surveyVersion is rejected. See
+        apps/support/docs/persistence.md.
+    SubmitSurveyRequest:
+      type: object
+      required:
+        - analysisId
+        - serverId
+        - clientId
+        - pseudonym
+        - consentId
+        - questionnaire
+        - answers
+      properties:
+        analysisId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: "Firestore document ID: no slash, dot/dot-dot, or __...__; no
+            leading/trailing whitespace or control characters."
+        serverId:
+          type: string
+          minLength: 1
+          maxLength: 256
+        clientId:
+          type: string
+          minLength: 1
+          maxLength: 256
+        pseudonym:
+          type: string
+          minLength: 1
+          maxLength: 256
+        consentId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Consent record ID returned by sendMagicLink; Firestore document ID
+            constraints apply.
+        questionnaire:
+          type: object
+          additionalProperties: false
+          required: [kind, definitionId]
+          properties:
+            kind:
+              type: string
+              enum: [initial, follow-up]
+            definitionId:
+              type: string
+              pattern: '^jcs-v1:sha256:[a-f0-9]{64}$'
+        answers:
+          type: object
+          minProperties: 1
+          propertyNames:
+            pattern: '^[A-Za-z][A-Za-z0-9_-]{0,127}$'
+          additionalProperties:
+            type: [string, 'null']
+      additionalProperties: false
+      description: Answers are nested by question ID, with null for untouched optional
+        items. The full questionnaire reference participates in exact retry comparison.
+        Maximum 200000 UTF-8 JSON bytes and 1000 values/containers. Reserved owner,
+        metadata, contact and credential names cannot be used as answer IDs.
+    AddInformationRequest:
+      description: No extra fields. content must be a nonempty string of at most
+        1000000 UTF-8 bytes and tone must be a supported value; neither is
+        coerced. expireAt must be a valid UTC ISO date-time (Z suffix), in years
+        0001 through 9999.
+      type: object
+      additionalProperties: false
+      required:
+        - content
+        - expireAt
+      properties:
+        content:
+          type: string
+          minLength: 1
+          maxLength: 1000000
+          description: Maximum 1000000 UTF-8 bytes; maxLength alone does not enforce the
+            byte limit. Oversized content or isolated Unicode surrogates return
+            400 INVALID_REQUEST before storage; valid strings are not
+            normalized.
+        tone:
+          type: string
+          enum:
+            - info
+            - warning
+            - error
+          default: info
+        expireAt:
+          type: string
+          format: date-time
+          pattern: ^(?!0000)[0-9]{4}-.*Z$
+    InformationMessage:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - content
+        - tone
+      properties:
+        id:
+          type: string
+          minLength: 1
+        content:
+          type: string
+        tone:
+          type: string
+          enum: [info, warning, error]
+        expireAt: {}
+        createdAt: {}
+    GetInformationResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/InformationMessage"
+    SurveyJsonValue:
+      description: JSON value; strings must not contain isolated Unicode surrogates
+        and are not normalized. Nested object keys obey the same restrictions as
+        request keys. Arrays cannot directly contain arrays.
+      oneOf:
+        - type:
+            - string
+            - number
+            - boolean
+            - "null"
+        - type: object
+          additionalProperties:
+            $ref: "#/components/schemas/SurveyJsonValue"
+        - type: array
+          items:
+            oneOf:
+              - type:
+                  - string
+                  - number
+                  - boolean
+                  - "null"
+              - type: object
+                additionalProperties:
+                  $ref: "#/components/schemas/SurveyJsonValue"
+    SendMagicLinkResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - ok
+        - consentId
+      properties:
+        ok:
+          const: true
+          type: boolean
+        consentId:
+          type: string
+          minLength: 1
+    RecordAnalysisOutcomeRequest:
+      type: object
+      additionalProperties: false
+      required: [clientId, serverId, pseudonym, consentId, analysisId, outcome, endedAtMs]
+      properties:
+        clientId: {type: string, minLength: 1, maxLength: 256}
+        serverId: {type: string, minLength: 1, maxLength: 256}
+        pseudonym: {type: string, minLength: 1, maxLength: 256}
+        consentId: {type: string, minLength: 1, maxLength: 256}
+        analysisId: {type: string, minLength: 1, maxLength: 256}
+        outcome: {type: string, enum: [completed, failed, cancelled]}
+        endedAtMs: {type: integer, minimum: 0, maximum: 8640000000000000}
+    RecordAnalysisAttemptResponse:
+      type: object
+      additionalProperties: false
+      required: [ok]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        questionnaireKind:
+          type: string
+          enum: [initial, follow-up]
+          description: Required for started observations. Captured atomically at the first
+            accepted start and unchanged on exact retries, even after initial acceptance.
+    RecordAnalysisAttemptRequest:
+      oneOf:
+        - type: object
+          additionalProperties: false
+          required:
+            - clientId
+            - serverId
+            - pseudonym
+            - consentId
+            - analysisId
+            - outcome
+            - startedAtMs
+            - documentGraphemeCounts
+          properties:
+            clientId: &a3
+              type: string
+              minLength: 1
+              maxLength: 256
+              description: Nonempty, no surrounding whitespace or control characters.
+            serverId: &a4
+              type: string
+              minLength: 1
+              maxLength: 256
+              description: Nonempty, no surrounding whitespace or control characters.
+            pseudonym: &a5
+              type: string
+              minLength: 1
+              maxLength: 256
+              description: Nonempty, no surrounding whitespace or control characters.
+            consentId: &a6
+              type: string
+              minLength: 1
+              maxLength: 256
+              description: Consent record ID returned by sendMagicLink; Firestore document ID
+                constraints apply.
+            analysisId: &a7
+              type: string
+              minLength: 1
+              maxLength: 256
+              description: Firestore document ID constraints apply.
+            outcome:
+              type: string
+              const: started
+            startedAtMs:
+              type: integer
+              minimum: 0
+              maximum: 8640000000000000
+            documentGraphemeCounts:
+              type: array
+              minItems: 1
+              maxItems: 20
+              items:
+                type: integer
+                minimum: 0
+                maximum: 30000
+        - type: object
+          additionalProperties: false
+          required: [clientId, serverId, pseudonym, consentId, analysisId, outcome]
+          properties:
+            clientId: *a3
+            serverId: *a4
+            pseudonym: *a5
+            consentId: *a6
+            analysisId: *a7
+            outcome:
+              type: string
+              const: presented
+          description: Idempotent presentation authorization recorded before browser rendering, after complete inference and browser storage. Requires a completed attempt and metadata.
+        - type: object
+          additionalProperties: false
+          required: [clientId, serverId, pseudonym, consentId, analysisId, outcome, reason]
+          properties:
+            clientId: *a3
+            serverId: *a4
+            pseudonym: *a5
+            consentId: *a6
+            analysisId: *a7
+            outcome:
+              type: string
+              const: unavailable
+            reason:
+              type: string
+              const: result_unavailable
+          description: Idempotent loss observation for completed output that Web can no longer recover before presentation. Preserves start/terminal observations, releases an unpresented initial claim, and prohibits subsequent metadata or presentation for this attempt. Exact retries cannot release a replacement claim.
+        - type: object
+          additionalProperties: false
+          required:
+            - clientId
+            - serverId
+            - pseudonym
+            - consentId
+            - analysisId
+            - outcome
+            - endedAtMs
+            - durationMs
+          properties:
+            clientId: *a3
+            serverId: *a4
+            pseudonym: *a5
+            consentId: *a6
+            analysisId: *a7
+            outcome:
+              type: string
+              enum:
+                - completed
+                - failed
+                - cancelled
+            endedAtMs:
+              type: integer
+              minimum: 0
+              maximum: 8640000000000000
+            durationMs:
+              type: integer
+              minimum: 0
+              maximum: 9007199254740991
+
+    DocumentSetReference:
+      type: object
+      properties:
+        version:
+          type: string
+          maxLength: 32
+          pattern: ^[0-9]+\.[0-9]+(?:\.[0-9]+)?$
+        sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+      required:
+        - version
+        - sha256
+      additionalProperties: false
+
+    ReadDocumentOriginalRequest:
+      type: object
+      properties:
+        pseudonym:
+          type: string
+          minLength: 1
+          maxLength: 256
+        recordId:
+          type: string
+          minLength: 1
+          maxLength: 256
+        name:
+          type: string
+          enum:
+            - explanation.pdf
+            - plan.pdf
+            - consent.pdf
+            - withdrawal.pdf
+      required:
+        - pseudonym
+        - recordId
+        - name
+      additionalProperties: false

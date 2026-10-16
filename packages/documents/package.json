@@ -1,0 +1,32 @@
+{
+  "name": "@aerpp/documents",
+  "version": "1.0.0",
+  "description": "Shared participant PDF rendering without persistence",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "Akira Matsushita",
+  "copyright": "2026 Akira Matsushita",
+  "exports": {
+    "./pdf": "./src/pdf.ts"
+  },
+  "dependencies": {
+    "@libpdf/core": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  },
+  "files": [
+    "src/**/*.ts",
+    "fonts/*.ttf",
+    "README.md",
+    "!**/*.test.*"
+  ],
+  "scripts": {
+    "lint": "biome check && node ../../scripts/checks/check-boundaries.mjs packages/documents",
+    "format": "biome format --write",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm run lint && pnpm run typecheck"
+  }
+}

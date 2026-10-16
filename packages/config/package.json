@@ -1,0 +1,148 @@
+{
+  "name": "@aerpp/config",
+  "version": "1.0.0",
+  "description": "Shared AERPP environment contracts and server-side secret providers",
+  "author": "Akira Matsushita",
+  "license": "MIT",
+  "copyright": "2026 Akira Matsushita",
+  "private": true,
+  "packageManager": "pnpm@12.11.2",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.mts",
+      "default": "./src/index.mjs"
+    },
+    "./secrets": {
+      "types": "./src/secrets.d.mts",
+      "default": "./src/secrets.mjs"
+    },
+    "./profiles": {
+      "types": "./src/profiles.d.mts",
+      "default": "./src/profiles.mjs"
+    },
+    "./llm": {
+      "types": "./src/llm.d.mts",
+      "default": "./src/llm.mjs"
+    },
+    "./survey": {
+      "types": "./src/survey.d.mts",
+      "default": "./src/survey.mjs"
+    },
+    "./workspace": {
+      "types": "./src/workspace.d.mts",
+      "default": "./src/workspace.mjs"
+    },
+    "./targets": {
+      "types": "./src/targets.d.mts",
+      "default": "./src/targets.mjs"
+    },
+    "./process": {
+      "types": "./src/process.d.mts",
+      "default": "./src/process.mjs"
+    },
+    "./safety": {
+      "types": "./src/safety.d.mts",
+      "default": "./src/safety.mjs"
+    },
+    "./web": {
+      "types": "./src/web.d.mts",
+      "default": "./src/web.mjs"
+    },
+    "./admin-deployment": {
+      "types": "./src/admin-deployment.d.mts",
+      "default": "./src/admin-deployment.mjs"
+    },
+    "./auto-settings": {
+      "types": "./src/auto-settings.d.mts",
+      "default": "./src/auto-settings.mjs"
+    },
+    "./manual-config": {
+      "types": "./src/manual-config.d.mts",
+      "default": "./src/manual-config.mjs"
+    },
+    "./admin": {
+      "types": "./src/admin.d.mts",
+      "default": "./src/admin.mjs"
+    },
+    "./web-validation": {
+      "types": "./src/web-validation.d.mts",
+      "default": "./src/web-validation.mjs"
+    },
+    "./server/web": {
+      "types": "./src/server-web.d.mts",
+      "default": "./src/server-web.mjs"
+    },
+    "./server/admin": {
+      "types": "./src/server-admin.d.mts",
+      "default": "./src/server-admin.mjs"
+    },
+    "./support-routes": {
+      "types": "./src/support-routes.d.mts",
+      "default": "./src/support-routes.mjs"
+    },
+    "./support": {
+      "types": "./src/support.d.mts",
+      "default": "./src/support.mjs"
+    },
+    "./terraform": {
+      "types": "./src/terraform.d.mts",
+      "default": "./src/terraform.mjs"
+    },
+    "./support-profile": {
+      "types": "./src/support-profile.d.mts",
+      "default": "./src/support-profile.mjs"
+    },
+    "./credential-files": {
+      "types": "./src/credential-files.d.mts",
+      "default": "./src/credential-files.mjs"
+    },
+    "./infrastructure": {
+      "types": "./src/infrastructure.d.mts",
+      "default": "./src/infrastructure.mjs"
+    },
+    "./questionnaire": {
+      "types": "./src/questionnaire.d.mts",
+      "default": "./src/questionnaire.mjs"
+    },
+    "./document-set": {
+      "types": "./src/document-set.d.mts",
+      "default": "./src/document-set.mjs"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/check-syntax.mjs",
+    "lint": "biome check && node ../../scripts/checks/check-boundaries.mjs packages/config",
+    "format": "biome format --write",
+    "typecheck": "tsc --noEmit --skipLibCheck --module NodeNext --target ES2022 tests/types.mts",
+    "test": "node --test src/*.test.mjs scripts/*.test.mjs",
+    "check": "pnpm run lint && pnpm run build && pnpm run typecheck && pnpm test"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "@types/node": "catalog:"
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  },
+  "files": [
+    "src/**/*.mjs",
+    "src/**/*.d.mts",
+    "src/**/*.json",
+    "templates/*.json",
+    "README.md",
+    "!**/*.test.*",
+    "!**/test-support/**",
+    "!**/tests/**",
+    "!**/e2e/**",
+    "!**/private/**",
+    "!**/generated/**",
+    "!**/secrets/**",
+    "!**/.env*",
+    "!**/.secret*",
+    "!**/gcp-*.json",
+    "!**/*service-account*.json",
+    "!**/*adminsdk*.json",
+    "!**/client_secret*.json"
+  ]
+}

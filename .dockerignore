@@ -1,0 +1,3 @@
+# Application images use apps/<app>/Dockerfile.dockerignore with the workspace root context.
+# An unspecified root-context Dockerfile receives no repository files.
+**

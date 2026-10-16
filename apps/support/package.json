@@ -1,0 +1,47 @@
+{
+  "name": "@aerpp/support",
+  "version": "1.0.0",
+  "description": "Participant support API for AERPP",
+  "author": "Akira Matsushita",
+  "license": "MIT",
+  "copyright": "2026 Akira Matsushita",
+  "private": true,
+  "packageManager": "pnpm@12.11.2",
+  "type": "module",
+  "engines": {
+    "node": "24"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node dist/server.mjs",
+    "lint": "biome check && node ../../scripts/checks/check-boundaries.mjs apps/support",
+    "format": "biome format --write",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:emulator": "node scripts/run-emulator-tests.mjs",
+    "verify": "pnpm run typecheck && pnpm test && pnpm run lint && pnpm run build"
+  },
+  "dependencies": {
+    "@aerpp/config": "workspace:*",
+    "@aerpp/firestore": "workspace:*",
+    "@aerpp/participant-api-contracts": "workspace:*",
+    "@google-cloud/firestore": "catalog:",
+    "express": "5.3.0",
+    "google-auth-library": "catalog:",
+    "pino": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@playwright/test": "catalog:",
+    "@types/express": "5.0.6",
+    "@types/node": "catalog:",
+    "rolldown": "1.2.14",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

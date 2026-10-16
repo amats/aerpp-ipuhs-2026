@@ -1,0 +1,41 @@
+{
+  "name": "@aerpp/participant-api-contracts",
+  "version": "1.0.0",
+  "description": "Shared participant API contracts for AERPP",
+  "author": "Akira Matsushita",
+  "license": "MIT",
+  "copyright": "2026 Akira Matsushita",
+  "private": true,
+  "packageManager": "pnpm@12.11.2",
+  "type": "module",
+  "exports": {
+    "./identifiers": "./src/identifiers.ts",
+    "./participant-api": "./src/participant-api.ts",
+    "./openapi.yaml": "./src/openapi.yaml"
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  },
+  "files": [
+    "src/**/*.ts",
+    "src/openapi.yaml",
+    "README.md",
+    "!**/*.test.*",
+    "!**/test-support/**",
+    "!**/tests/**",
+    "!**/e2e/**",
+    "!**/private/**",
+    "!**/generated/**",
+    "!**/secrets/**",
+    "!**/.env*",
+    "!**/.secret*",
+    "!**/gcp-*.json",
+    "!**/*service-account*.json",
+    "!**/*adminsdk*.json",
+    "!**/client_secret*.json"
+  ],
+  "scripts": {
+    "lint": "biome check && node ../../scripts/checks/check-boundaries.mjs packages/contracts",
+    "format": "biome format --write"
+  }
+}

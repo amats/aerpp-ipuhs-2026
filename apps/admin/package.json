@@ -1,0 +1,56 @@
+{
+  "name": "@aerpp/admin",
+  "version": "1.0.0",
+  "description": "Administration App for AERPP",
+  "author": "Akira Matsushita",
+  "license": "MIT",
+  "copyright": "2026 Akira Matsushita",
+  "private": true,
+  "packageManager": "pnpm@12.11.2",
+  "engines": {
+    "node": "24"
+  },
+  "scripts": {
+    "dev": "node ../../scripts/licenses/stage-license-notices.mjs admin && next dev",
+    "build": "node ../../scripts/licenses/stage-license-notices.mjs admin && next build",
+    "build:local": "node ../../scripts/licenses/stage-license-notices.mjs admin && node scripts/build-local.mjs",
+    "start": "next start",
+    "lint": "biome check && node ../../scripts/checks/check-boundaries.mjs apps/admin",
+    "lint:fix": "biome check --write",
+    "format": "biome format --write",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "node ../../scripts/licenses/stage-license-notices.mjs admin && vitest run",
+    "test:e2e": "pnpm --filter @aerpp/support run test:emulator --config ../admin/playwright.config.mts",
+    "verify": "pnpm run lint && pnpm run typecheck && pnpm test",
+    "research:sample": "node scripts/generate-research-sample.mjs"
+  },
+  "dependencies": {
+    "@aerpp/config": "workspace:*",
+    "@aerpp/firestore": "workspace:*",
+    "@aerpp/participant-api-contracts": "workspace:*",
+    "@google-cloud/firestore": "catalog:",
+    "@google-cloud/logging": "^12.3.0",
+    "google-auth-library": "catalog:",
+    "iron-webcrypto": "2.0.0",
+    "next": "catalog:",
+    "next-auth": "^4.24.15",
+    "pino": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "zod": "catalog:",
+    "@aerpp/documents": "workspace:*"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@playwright/test": "catalog:",
+    "@tailwindcss/postcss": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "babel-plugin-react-compiler": "catalog:",
+    "iron-session": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
