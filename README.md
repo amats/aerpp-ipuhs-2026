@@ -49,6 +49,24 @@ pnpm run env:run test admin dev
 
 Web uses port 3000 and Admin uses port 3001. `dev:web` and `dev:admin` are shortcuts for these test-cloud launches. They are not the first-run local preview. Production requires its own [deployment acceptance](docs/deployment.md#release-acceptance).
 
+## Study preregistration and citation
+
+The evaluation study associated with AERPP is preregistered on OSF:
+
+Matsushita, A., Ide, M., & Kohno, Y. (2026).
+*Evaluation of an AI System for Pre-analysis of Research Ethics Application Documents*
+[Preregistration]. OSF Registries.
+[10.17605/OSF.IO/MJDEQ](https://doi.org/10.17605/OSF.IO/MJDEQ).
+
+If you use AERPP software or source code, please cite the version you use.
+[CITATION.cff](CITATION.cff) provides software citation metadata for the
+[v1.0.0 source release](https://github.com/amats/aerpp-ipuhs-2026/releases/tag/v1.0.0).
+If you discuss the evaluation study or its protocol, cite the OSF preregistration
+above; cite both when you use both the software and the study protocol.
+The OSF DOI identifies the study preregistration, not the software release.
+See [research release records](docs/research-release.md#public-study-and-source-release)
+for the associated source tag, commit and release date.
+
 ## Documentation
 
 Use the [documentation index](docs/README.md) for task-based reading paths, workspace guide ownership and application/package references. Contributors start with [CONTRIBUTING.md](CONTRIBUTING.md); operators follow [setup](docs/setup.md) and [deployment](docs/deployment.md).

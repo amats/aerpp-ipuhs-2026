@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: >-
+  Please cite this AERPP software release using the metadata below.
+  If you discuss the associated evaluation study or its protocol,
+  also cite its OSF preregistration:
+  https://doi.org/10.17605/OSF.IO/MJDEQ
+type: software
+title: "AERPP: AI-assisted Ethical Review Pre-Processing"
+authors:
+  - family-names: "Matsushita"
+    given-names: "Akira"
+    orcid: "https://orcid.org/0000-0003-2335-674X"
+    website: "https://researchmap.jp/akira/"
+  - family-names: "Ide"
+    given-names: "Masayuki"
+  - family-names: "Kohno"
+    given-names: "Yutaka"
+version: "1.0.0"
+commit: "7227b26044447f0204cfd6e7f641838a675a1176"
+date-released: "2026-10-16"
+repository-code: "https://github.com/amats/aerpp-ipuhs-2026"
+url: "https://github.com/amats/aerpp-ipuhs-2026/releases/tag/v1.0.0"
+license: "MIT"

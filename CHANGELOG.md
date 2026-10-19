@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- OSF study preregistration links, English and Japanese citation guidance, and
+  software citation metadata identifying the published `v1.0.0` source release.
+
 ### Changed
 
 - Keep Dependabot's Node.js runtime, development-image and type-definition

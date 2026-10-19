@@ -1,5 +1,37 @@
 # Research release records
 
+## Public study and source release
+
+The evaluation study, *Evaluation of an AI System for Pre-analysis of Research
+Ethics Application Documents*, is preregistered on OSF. The following records link
+the public study registration and its associated source release:
+
+| Record | Value |
+| --- | --- |
+| Study preregistration | [10.17605/OSF.IO/MJDEQ](https://doi.org/10.17605/OSF.IO/MJDEQ) |
+| Public repository | [amats/aerpp-ipuhs-2026](https://github.com/amats/aerpp-ipuhs-2026) |
+| Software version | `1.0.0` |
+| Release tag | [v1.0.0](https://github.com/amats/aerpp-ipuhs-2026/releases/tag/v1.0.0) |
+| Source commit | [`7227b26044447f0204cfd6e7f641838a675a1176`](https://github.com/amats/aerpp-ipuhs-2026/commit/7227b26044447f0204cfd6e7f641838a675a1176) |
+| Software release date | `2026-10-16` |
+| Software citation metadata | [CITATION.cff](../CITATION.cff) |
+
+The OSF DOI identifies the study preregistration. Use the software citation metadata
+for the source release and cite the registration when discussing the study or its
+protocol; the [README](../README.md#study-preregistration-and-citation) provides the
+registration citation. The software is covered by the [MIT license](../LICENSE);
+the registration's [DOI metadata](https://api.datacite.org/dois/10.17605/osf.io/mjdeq)
+list CC BY 4.0 for the registration.
+
+Reconcile this source identity with the registration's protocol and attachments
+when recording study provenance. Retain the actual deployment and local inference
+conditions under [release provenance](#release-provenance).
+
+The citation metadata were added after the `v1.0.0` release and describe that fixed
+snapshot. They are available on the default branch; the existing tag and its source
+archives retain their original contents. Preserve this historical mapping when
+documenting later source releases under the [source release procedure](releases.md).
+
 ## Study-period change policy
 
 From the participant study release through the end of the approximately one-year study, keep application behavior fixed, including algorithms, resource limits, UI/research wording, questionnaires, prompts, model selection, generation settings and stored data semantics. Complete required design changes and validation before this freeze. The exception is minimum necessary security maintenance, including dependency updates; this is not permission for incidental feature or research-condition changes.
