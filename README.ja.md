@@ -51,6 +51,21 @@ pnpm run env:run test admin dev
 
 Web はポート 3000、Admin はポート 3001 を使用します。`dev:web` と `dev:admin` は、このテスト用クラウドに接続する起動コマンドのショートカットです。初回実行用のローカルプレビューとは異なります。本番環境では、別途[デプロイの受け入れ検証](docs/deployment.md#release-acceptance)が必要です。
 
+## 事前登録と引用
+
+AERPP に関連する評価研究は、OSF に事前登録されています。
+
+Matsushita, A., Ide, M., & Kohno, Y. (2026).
+*Evaluation of an AI System for Pre-analysis of Research Ethics Application Documents*
+[Preregistration]. OSF Registries.
+[10.17605/OSF.IO/MJDEQ](https://doi.org/10.17605/OSF.IO/MJDEQ).
+
+AERPP のソフトウェアやソースコードを利用する場合は、使用したバージョンを引用してください。
+[CITATION.cff](CITATION.cff) に、[v1.0.0 のソースリリース](https://github.com/amats/aerpp-ipuhs-2026/releases/tag/v1.0.0)を引用するための情報を掲載しています。
+評価研究やその研究計画に言及する場合は、上記の OSF 事前登録を引用してください。ソフトウェアと研究計画の両方を利用する場合は、両方を引用してください。
+この OSF DOI は研究の事前登録を識別するものであり、ソフトウェア自体の DOI ではありません。
+対応するソースのタグ・コミット・公開日は、[研究リリースの記録](docs/research-release.md#public-study-and-source-release)を参照してください。
+
 ## ドキュメント
 
 目的別の読み進め方、各ガイドの対象範囲、アプリケーション・パッケージごとの資料は、[ドキュメント一覧](docs/README.md)を参照してください。開発に参加する方は [CONTRIBUTING.md](CONTRIBUTING.md) から、運用担当者は[セットアップ](docs/setup.md)と[デプロイ](docs/deployment.md)から読み進めてください。
