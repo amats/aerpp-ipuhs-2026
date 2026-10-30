@@ -54,7 +54,7 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "saxes": "6.0.0",
-    "undici": "8.12.1",
+    "undici": "8.12.2",
     "unified": "^11.0.5",
     "zod": "catalog:"
   },
