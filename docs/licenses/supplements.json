@@ -1,5 +1,5 @@
 {
-  "@zip.js/zip.js@2.23.0": {
+  "@zip.js/zip.js@2.25.0": {
     "file": "supplements/zip-js-zlib-streams.txt",
     "source": "https://raw.githubusercontent.com/gildas-lormeau/zlib-streams-ts/688fdc5541a7f696de1fe90253b5b3efc452bae8/LICENSE.md",
     "note": "Verbatim BSD-3-Clause and zlib notices for the bundled native JavaScript fallback. The installed lib/core/streams/zlib-js/zlib-streams.min.js matches upstream dist/zlib-streams.min.js at this revision, SHA-256 61d834e474adcadf5c535092b39b8bffe87f97959d90f9c3da17992f5d89ab41."
@@ -14,14 +14,14 @@
     "source": "https://raw.githubusercontent.com/nextauthjs/next-auth/d857eec560fb99c8b18d3b22a2693b849a62d1c3/LICENSE",
     "note": "ISC text from the upstream v4 branch; package tarball omits LICENSE."
   },
-  "@next/env@16.4.1": {
+  "@next/env@16.4.6": {
     "file": "supplements/next.txt",
-    "source": "https://raw.githubusercontent.com/vercel/next.js/v16.4.1/license.md",
+    "source": "https://raw.githubusercontent.com/vercel/next.js/v16.4.6/license.md",
     "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
   },
-  "@next/swc-linux-arm64-gnu@16.4.1": {
+  "@next/swc-linux-arm64-gnu@16.4.6": {
     "file": "supplements/next.txt",
-    "source": "https://raw.githubusercontent.com/vercel/next.js/v16.4.1/license.md",
+    "source": "https://raw.githubusercontent.com/vercel/next.js/v16.4.6/license.md",
     "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
   },
   "babel-plugin-react-compiler@1.0.0": {
@@ -74,9 +74,9 @@
     "source": "https://raw.githubusercontent.com/TooTallNate/proxy-agents/4813885d3f4e2ff837878ceffdba656a71dc31f0/packages/data-uri-to-buffer/LICENSE",
     "note": "Supplement for the declared license; review source attribution and version changes."
   },
-  "@next/swc-linux-x64-gnu@16.4.1": {
+  "@next/swc-linux-x64-gnu@16.4.6": {
     "file": "supplements/next.txt",
-    "source": "https://raw.githubusercontent.com/vercel/next.js/v16.4.1/license.md",
+    "source": "https://raw.githubusercontent.com/vercel/next.js/v16.4.6/license.md",
     "note": "Upstream project license supplement for a package that omits the license file; review on version changes."
   },
   "@img/sharp-libvips-linux-arm64@1.3.4": {
@@ -85,9 +85,9 @@
   "@img/sharp-libvips-linux-x64@1.3.4": {
     "nativeBundle": "supplements/sharp-libvips-1.3.4.json"
   },
-  "@libpdf/core@0.5.2": {
+  "@libpdf/core@0.5.3": {
     "file": "supplements/libpdf-fontbox.txt",
-    "source": "https://raw.githubusercontent.com/LibPDF-js/core/ec46179dd8fa5fbe7ae206f3db0f744bb8ea02df/src/fontbox/LICENSE.md",
+    "source": "https://raw.githubusercontent.com/LibPDF-js/core/6bb53b8c7574c1a91992812bcfca8121a11eace8/src/fontbox/LICENSE.md",
     "note": "Apache-2.0 text for the FontBox-derived code; the package includes its own MIT notice but omits this source-directory license."
   }
 }

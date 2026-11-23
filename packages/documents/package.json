@@ -1,6 +1,6 @@
 {
   "name": "@aerpp/documents",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Shared participant PDF rendering without persistence",
   "private": true,
   "type": "module",

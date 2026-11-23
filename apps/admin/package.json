@@ -1,6 +1,6 @@
 {
   "name": "@aerpp/admin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Administration App for AERPP",
   "author": "Akira Matsushita",
   "license": "MIT",
@@ -29,7 +29,7 @@
     "@aerpp/firestore": "workspace:*",
     "@aerpp/participant-api-contracts": "workspace:*",
     "@google-cloud/firestore": "catalog:",
-    "@google-cloud/logging": "^12.3.0",
+    "@google-cloud/logging": "^12.3.1",
     "google-auth-library": "catalog:",
     "iron-webcrypto": "2.0.0",
     "next": "catalog:",

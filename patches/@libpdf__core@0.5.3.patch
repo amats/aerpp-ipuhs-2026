@@ -1,5 +1,5 @@
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 71bb9e0c947dc86e1576ec67754dd954cd86a56a..c035a18b5ccae69aeeda466979af74b212ba3b4c 100644
+index 3becfdee05549f3e180d1b6787a3c523c1c71828..d6937634e1d017f73e035611ff7b083271f95a31 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
 @@ -20936,6 +20936,8 @@ function chooseAppearanceFont(text, candidates) {
