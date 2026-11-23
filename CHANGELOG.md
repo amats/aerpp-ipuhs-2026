@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update Next.js, Google Cloud client libraries, PDF and ZIP handling, and
   development tools. Run `pnpm install --frozen-lockfile` to install them, then
   `pnpm run test:e2e:install` to refresh Chromium for browser tests.
+- Update the Dev Container's Docker-outside-of-Docker feature to 1.10.3.
+  Rebuild the Dev Container to use the updated Docker tooling.
 - Keep Dependabot's Node.js runtime, development-image and type-definition
   updates within the declared Node.js 24 baseline.
 
@@ -27,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update the Support API's Express dependencies `body-parser` and `qs` to
   address security advisories GHSA-27r3-jxmh-p828 and GHSA-6pq8-jhm2-2vcw.
+- Update the Vite dependency used by Vitest to 8.3.8 to address six
+  development-server security advisories.
 
 ## [1.0.0] - 2026-10-16
 
