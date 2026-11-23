@@ -1,6 +1,6 @@
 {
   "name": "@aerpp/config",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Shared AERPP environment contracts and server-side secret providers",
   "author": "Akira Matsushita",
   "license": "MIT",

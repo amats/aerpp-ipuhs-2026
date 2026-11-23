@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-23
+
 ### Added
 
 - OSF study preregistration links, English and Japanese citation guidance, and
@@ -15,8 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Update Next.js, Google Cloud client libraries, PDF and ZIP handling, and
+  development tools. Run `pnpm install --frozen-lockfile` to install them, then
+  `pnpm run test:e2e:install` to refresh Chromium for browser tests.
 - Keep Dependabot's Node.js runtime, development-image and type-definition
   updates within the declared Node.js 24 baseline.
+
+### Fixed
+
+- Update the Support API's Express dependencies `body-parser` and `qs` to
+  address security advisories GHSA-27r3-jxmh-p828 and GHSA-6pq8-jhm2-2vcw.
 
 ## [1.0.0] - 2026-10-16
 

@@ -1,6 +1,6 @@
 {
   "name": "@aerpp/participant-api-contracts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Shared participant API contracts for AERPP",
   "author": "Akira Matsushita",
   "license": "MIT",
