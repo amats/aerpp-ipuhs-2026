@@ -10,7 +10,7 @@ allowBuilds:
 # Shared dependencies and packages upgraded together. Single-owner dependencies
 # stay in their package.json; keep pnpm's default manual catalog mode.
 catalog:
-  "@biomejs/biome": "2.5.15"
+  "@biomejs/biome": "2.6.9"
   "@google-cloud/firestore": "9.4.1"
   "@libpdf/core": "0.5.3"
   "@next/mdx": "^16.4.6"
