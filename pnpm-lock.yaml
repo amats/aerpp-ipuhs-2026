@@ -198,8 +198,8 @@ catalogs:
       specifier: 11.3.4
       version: 11.3.4
     iron-session:
-      specifier: 9.1.0
-      version: 9.1.0
+      specifier: 9.1.1
+      version: 9.1.1
     next:
       specifier: ^16.4.6
       version: 16.4.6
@@ -314,7 +314,7 @@ importers:
         version: 1.0.0
       iron-session:
         specifier: 'catalog:'
-        version: 9.1.0
+        version: 9.1.1
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.5
@@ -411,7 +411,7 @@ importers:
         version: 0.1.5
       iron-session:
         specifier: 'catalog:'
-        version: 9.1.0
+        version: 9.1.1
       jszip:
         specifier: ^3.10.2
         version: 3.10.2
@@ -2131,8 +2131,8 @@ packages:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
     engines: {node: '>= 0.10'}
 
-  iron-session@9.1.0:
-    resolution: {integrity: sha512-ev5xEgYgRcG3tSUMlX5i9fL/AedBYqDOnojk7Ihqs/scFDQ2u4FzwZybhYkJasCSKeIong128SCQlSbvWu9s0g==}
+  iron-session@9.1.1:
+    resolution: {integrity: sha512-3lp4fCD9hJlcN65n0C4hYFF3ZPcRnQlOI4foKachDiu6fnYhNG8qWUF7UXMKV6X8N8bCprBh+FnX/0ZoSOdgMg==}
     engines: {node: '>=22.13.0'}
 
   iron-webcrypto@2.0.0:
@@ -4629,7 +4629,7 @@ snapshots:
 
   ipaddr.js@1.9.1: {}
 
-  iron-session@9.1.0:
+  iron-session@9.1.1:
     dependencies:
       cookie: 2.0.1
       iron-webcrypto: 2.0.0
